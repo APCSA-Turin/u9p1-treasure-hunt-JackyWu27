@@ -7,6 +7,7 @@ public class Grid{
     private int size;
 
     public Grid(int size) { //initialize and create a grid with all DOT objects
+        this.size = size;
         grid = new Sprite [size][size];
         for (int c = 0; c < size; c ++) {
             for (int d = 0; d < size; d ++) {
@@ -21,21 +22,29 @@ public class Grid{
 
 
     public void placeSprite(Sprite s){ //place sprite in new spot
-        grid[s.getY()][s.getX()] = s;
+        grid[size - s.getY()][s.getX()] = s;
     }
 
     public void placeSprite(Sprite s, String direction) { //place sprite in a new spot based on direction
         if (direction.equals("w") && s.getY() != 0) { //checks direction and moves if possible
+            placeSprite(new Dot(s.getY(), s.getX()));
             s.setY(s.getY() + 1);
+            placeSprite(s);
         }
         if (direction.equals("s") && s.getY() != size - 1) { //checks direction and moves if possible
+            placeSprite(new Dot(s.getY(), s.getX()));
             s.setY(s.getY() - 1);
+            placeSprite(s);
         }
         if (direction.equals("a") && s.getX() != 0) { //checks direction and moves if possible
+            placeSprite(new Dot(s.getY(), s.getX()));
             s.setX(s.getX() + 1);
+            placeSprite(s);
         }
         if (direction.equals("d") && s.getX() != size - 1) { //checks direction and moves if possible
+            placeSprite(new Dot(s.getY(), s.getX()));
             s.setX(s.getX() - 1);
+            placeSprite(s);
         }
     }
 
@@ -43,16 +52,19 @@ public class Grid{
     public void display() { //print out the current grid to the screen 
         for (Sprite [] c : grid) {
             for (Sprite d : c) {
-                if (d instanceof Dot) {
-                    System.out.print("⬜");
-                } else if (d instanceof Player) {
-                    System.out.print("🤖");
-                } else if (d instanceof Enemy) {
-                    System.out.print("💀");
+                if (d instanceof Trophy) {
+                    System.out.print("🏆 ");
                 } else if (d instanceof Treasure) {
-                    System.out.print("💰");
-                } else if (d instanceof Trophy) {
-                    System.out.print("🏆");
+                    System.out.print("💰 ");
+                }
+                if (d instanceof Player) {
+                    System.out.print("🤖 ");
+                }
+                if (d instanceof Enemy) {
+                    System.out.print("💀 ");
+                }
+                if (d instanceof Dot) {
+                    System.out.print("⬜ ");
                 }
             }
             System.out.println();

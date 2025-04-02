@@ -10,6 +10,9 @@ public class Game{
     private int size; 
 
     public Game(int size){ //the constructor should call initialize() and play()
+        this.size = size;
+        initialize();
+        play();
     }
 
     public static void clearScreen() { //do not modify
@@ -38,9 +41,9 @@ public class Game{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            String answer = scanner.nextLine();
+            grid.placeSprite(player, answer);
             clearScreen(); // Clear the screen at the beggining of the while loop
-
-     
             }
             
      
@@ -50,12 +53,15 @@ public class Game{
 
         //to test, create a player, trophy, grid, treasure, and enemies. Then call placeSprite() to put them on the grid
         grid = new Grid(size);
-        Player player = new Player(0, 0);
+        player = new Player(7, 7);
         Enemy enemy = new Enemy(5, 5);
         Enemy enemy2 = new Enemy(7,8);
         Treasure treasure = new Treasure(2, 2);
         Treasure treasure2 = new Treasure(1,7);
-        Trophy trophy = new Trophy(9, 9);
+        trophy = new Trophy(9, 9);
+        enemies = new Enemy[] {enemy, enemy2};
+        treasures = new Treasure[] {treasure, treasure2};
+
         grid.placeSprite(player);
         grid.placeSprite(enemy);
         grid.placeSprite(enemy2);
@@ -67,6 +73,5 @@ public class Game{
 
     public static void main(String[] args) {
         Game g = new Game(10);
-        g.initialize();
     }
 }
