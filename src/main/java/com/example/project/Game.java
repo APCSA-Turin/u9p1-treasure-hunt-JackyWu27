@@ -41,7 +41,7 @@ public class Game{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            String answer = scanner.nextLine();
+            
             grid.placeSprite(player, answer);
             clearScreen(); // Clear the screen at the beggining of the while loop
             }
