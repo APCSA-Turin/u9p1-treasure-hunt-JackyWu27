@@ -5,6 +5,7 @@ package com.example.project;
 public class Grid{
     private Sprite[][] grid;
     private int size;
+    private int numTreasures;
 
     public Grid(int size) { //initialize and create a grid with all DOT objects
         this.size = size;
@@ -19,33 +20,38 @@ public class Grid{
  
     public Sprite[][] getGrid(){return grid;}
 
-
-
     public void placeSprite(Sprite s){ //place sprite in new spot
-        grid[size - s.getY()][s.getX()] = s;
+        grid[size - (s.getY() + 1)][s.getX()] = s;
+        int num = 0;
+        for (Sprite [] c : grid) {
+            for (Sprite d : c) {
+                if (d instanceof Treasure && !(d instanceof Trophy)) {
+                    num ++;
+                }
+            }
+        } 
+        numTreasures = num;
     }
 
     public void placeSprite(Sprite s, String direction) { //place sprite in a new spot based on direction
-        if (direction.equals("w") && s.getY() != 0) { //checks direction and moves if possible
-            placeSprite(new Dot(s.getY(), s.getX()));
-            s.setY(s.getY() + 1);
-            placeSprite(s);
+        
+        if (direction.equals("d")) {
+            placeSprite(new Dot(s.getX() - 1, s.getY()));
         }
-        if (direction.equals("s") && s.getY() != size - 1) { //checks direction and moves if possible
-            placeSprite(new Dot(s.getY(), s.getX()));
-            s.setY(s.getY() - 1);
-            placeSprite(s);
+        if (direction.equals("a")) {
+            placeSprite(new Dot(s.getX() + 1, s.getY()));        
         }
-        if (direction.equals("a") && s.getX() != 0) { //checks direction and moves if possible
-            placeSprite(new Dot(s.getY(), s.getX()));
-            s.setX(s.getX() + 1);
-            placeSprite(s);
+        if (direction.equals("w")) {
+            placeSprite(new Dot(s.getX(), s.getY() - 1));
         }
-        if (direction.equals("d") && s.getX() != size - 1) { //checks direction and moves if possible
-            placeSprite(new Dot(s.getY(), s.getX()));
-            s.setX(s.getX() - 1);
-            placeSprite(s);
+        if (direction.equals("s")) {
+            placeSprite(new Dot(s.getX(), s.getY() + 1));
         }
+        if(s instanceof Player){
+            ((Player)s).interact(size, direction, numTreasures, grid[s.getY()][s.getX()]);
+        }
+        
+        placeSprite(s);
     }
 
 
@@ -88,6 +94,5 @@ public class Grid{
             System.out.println();
         }
     }
-
 
 }

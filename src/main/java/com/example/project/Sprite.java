@@ -19,7 +19,7 @@ public class Sprite {
     }
 
     public String getRowCol(int size){ //returns the row and column of the sprite -> "[row][col]"
-        return "[][]";
+        return ("[" + ((size - 1) - getY()) + "][" + getX() + "]");
     }
     
 
